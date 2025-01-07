@@ -4,7 +4,7 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
         <div className="flex items-center space-x-4">
-          <img src="/logo.png" alt="Logo" className="w-12 h-12 object-cover" />
+          {/* <img src="/logo.png" alt="Logo" className="w-12 h-12 object-cover" /> */}
           <span className="text-white font-bold text-lg">IH</span>
         </div>
 
