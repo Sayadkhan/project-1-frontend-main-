@@ -1,5 +1,5 @@
 const HomePage = () => {
-  const bgImage = "../../src/img/2.png";
+  const bgImage = "../../../2.png";
 
   return (
     <div className="relative">
