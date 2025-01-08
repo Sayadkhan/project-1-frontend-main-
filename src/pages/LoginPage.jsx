@@ -3,12 +3,13 @@ import axiosInstance from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const bgImage = "../../../2.png";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const navigite = useNavigate();
+  const navigate = useNavigate();
 
   const [message, setMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -30,12 +31,8 @@ const LoginPage = () => {
       setSuccessMessage(
         response.data.message || "User registered successfully!"
       );
-
-      localStorage.setItem("authToken", response.data.token);
-      localStorage.setItem("user", response.data.user);
-
       setTimeout(() => setSuccessMessage(""), 3000);
-      navigite("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       setMessage(error.response?.data?.message || "Registration failed.");
       setTimeout(() => setMessage(""), 3000);
@@ -43,11 +40,14 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 ">
-      <div className="container mx-auto flex items-center justify-center ">
-        <div className=" bg-white bg-opacity-90 rounded-lg shadow-lg w-[30rem] p-10">
+    <div
+      className="flex items-center justify-center min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: `url('/2.png')` }}
+    >
+      <div className="bg-black container mx-auto flex items-center justify-center">
+        <div className="bg-white bg-opacity-90 rounded-lg shadow-lg w-[30rem] p-10">
           <h2 className="text-3xl font-bold text-center text-gray-800">
-            Login To Your Account
+            Login To Your Account five
           </h2>
           <form onSubmit={handleSubmit} className="grid gap-10">
             <div>
@@ -76,14 +76,19 @@ const LoginPage = () => {
                 className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
               />
             </div>
-
             <button
               type="submit"
-              className="w-full px-4 py-2 font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200"
+              className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             >
               Login
             </button>
           </form>
+          {message && (
+            <p className="mt-4 text-red-500 text-center">{message}</p>
+          )}
+          {successMessage && (
+            <p className="mt-4 text-green-500 text-center">{successMessage}</p>
+          )}
         </div>
       </div>
     </div>
