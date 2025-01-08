@@ -36,8 +36,6 @@ const RegistrationPage = () => {
     confirmPassword: "",
   });
 
-  console.log(formData);
-
   const [message, setMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 

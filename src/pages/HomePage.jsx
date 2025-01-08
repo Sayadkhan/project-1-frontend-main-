@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 const HomePage = () => {
   const bgImage = "../../../2.png";
 
   return (
-    <div className="relative">
+    <div className="relative z-10">
       {/* Hero Section */}
       <section
         className="relative h-screen bg-center bg-contain bg-no-repeat"
@@ -19,9 +21,12 @@ const HomePage = () => {
           <p className="text-lg md:text-xl max-w-xl mb-6 leading-relaxed">
             A proud Saudi project for the world – happening now.
           </p>
-          <button className="bg-white text-black font-bold py-3 px-6 rounded shadow-lg hover:bg-gray-200 transition">
+          <Link
+            to={"/register"}
+            className="bg-white text-black font-bold py-3 px-6 rounded shadow-lg hover:bg-gray-200 transition"
+          >
             Learn More
-          </button>
+          </Link>
         </div>
       </section>
     </div>

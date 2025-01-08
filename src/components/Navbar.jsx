@@ -1,12 +1,14 @@
+import { Link, Links } from "react-router-dom";
+
 const Navbar = () => {
   return (
-    <nav className="bg-transparent fixed top-0 left-0 w-full z-10">
+    <nav className="bg-black  top-0 left-0 w-full z-50">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
-        <div className="flex items-center space-x-4">
+        <Link to={"/"} className="flex items-center space-x-4">
           {/* <img src="/logo.png" alt="Logo" className="w-12 h-12 object-cover" /> */}
           <span className="text-white font-bold text-lg">IH</span>
-        </div>
+        </Link>
 
         {/* Navigation Links */}
         <div className="hidden md:flex space-x-8">
@@ -50,16 +52,12 @@ const Navbar = () => {
         <div></div>
         {/* Language Selector and Button */}
         <div className="flex items-center space-x-4">
-          <select
-            className="bg-transparent text-white border border-white rounded px-2 py-1 text-sm focus:outline-none"
-            defaultValue="English"
+          <Link
+            to={"/login"}
+            className="bg-white text-black font-bold px-4 py-2 rounded"
           >
-            <option value="English">English</option>
-            <option value="Arabic">Arabic</option>
-          </select>
-          <button className="bg-white text-black font-bold px-4 py-2 rounded">
-            GET IN TOUCH
-          </button>
+            login page
+          </Link>
         </div>
       </div>
     </nav>
