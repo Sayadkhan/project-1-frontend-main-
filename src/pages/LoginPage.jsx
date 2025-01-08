@@ -32,6 +32,8 @@ const LoginPage = () => {
       );
 
       localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem("user", response.data.user);
+
       setTimeout(() => setSuccessMessage(""), 3000);
       navigite("/dashboard");
     } catch (error) {

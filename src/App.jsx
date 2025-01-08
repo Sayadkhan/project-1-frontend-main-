@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import HomeLayout from "./layouts/HomeLayout";
 import HomePage from "./pages/HomePage";
 import RegistionPage from "./pages/RegistionPage";
@@ -11,6 +12,7 @@ import RestrictedRoute from "./components/RestrictedRoute";
 import Overview from "./components/Overview";
 import Profile from "./components/Profile";
 import Settings from "./components/Settings";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   const route = createBrowserRouter([
@@ -24,7 +26,6 @@ const App = () => {
         },
         {
           path: "/register",
-
           element: (
             <RestrictedRoute>
               <RegistionPage />
@@ -50,19 +51,19 @@ const App = () => {
       ),
       children: [
         {
-          path: "", // Matches "/dashboard" (child inherits the parent path)
+          path: "",
           element: <VendorDashboard />,
         },
         {
-          path: "overview", // Matches "/dashboard/overview"
+          path: "overview",
           element: <Overview />,
         },
         {
-          path: "profile", // Matches "/dashboard/profile"
+          path: "profile",
           element: <Profile />,
         },
         {
-          path: "Apply For Vendor", // Matches "/dashboard/settings"
+          path: "apply-for-vendor",
           element: <Settings />,
         },
       ],
@@ -74,9 +75,9 @@ const App = () => {
   ]);
 
   return (
-    <div>
+    <AuthProvider>
       <RouterProvider router={route} />
-    </div>
+    </AuthProvider>
   );
 };
 
