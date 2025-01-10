@@ -34,7 +34,9 @@ const LoginPage = () => {
 
       localStorage.setItem("authToken", response.data.token);
       localStorage.setItem("userData", JSON.stringify(response.data.user));
-      navigate("/user");
+
+      response.data.user.role === "admin" && navigate("/admin");
+      response.data.user.role === "user" && navigate("/user");
     } catch (error) {
       setMessage(error.response?.data?.message || "Registration failed.");
       setTimeout(() => setMessage(""), 3000);

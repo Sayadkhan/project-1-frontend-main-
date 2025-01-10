@@ -21,6 +21,8 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/AdminDashboard";
 import UserManagement from "./pages/UserManagement";
 import VendorManagement from "./pages/VendorManagement";
+import PendingVendor from "./pages/PendingVendor";
+import AllVendor from "./pages/AllVendor";
 
 const App = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -101,6 +103,8 @@ const App = () => {
         { path: "/admin/dashboard", element: <AdminDashboard /> },
         { path: "/admin/user", element: <UserManagement /> },
         { path: "/admin/vendor", element: <VendorManagement /> },
+        { path: "/admin/vendor/pending", element: <PendingVendor /> },
+        { path: "/admin/vendor/approved", element: <AllVendor /> },
       ],
     },
     {
