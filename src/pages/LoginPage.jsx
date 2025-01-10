@@ -3,7 +3,6 @@ import axiosInstance from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const bgImage = "../../../2.png";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -32,7 +31,10 @@ const LoginPage = () => {
         response.data.message || "User registered successfully!"
       );
       setTimeout(() => setSuccessMessage(""), 3000);
-      navigate("/dashboard");
+
+      localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem("userData", JSON.stringify(response.data.user));
+      navigate("/user");
     } catch (error) {
       setMessage(error.response?.data?.message || "Registration failed.");
       setTimeout(() => setMessage(""), 3000);

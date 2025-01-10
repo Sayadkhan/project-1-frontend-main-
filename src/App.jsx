@@ -1,20 +1,28 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 
 import HomeLayout from "./layouts/HomeLayout";
 import HomePage from "./pages/HomePage";
 import RegistionPage from "./pages/RegistionPage";
 import LoginPage from "./pages/LoginPage";
 import VendorLayout from "./layouts/VendorLayout";
-import VendorDashboard from "./pages/VendorDashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import RestrictedRoute from "./components/RestrictedRoute";
-import Overview from "./components/Overview";
-import Profile from "./components/Profile";
-import Settings from "./components/Settings";
+
 import { AuthProvider } from "./context/AuthContext";
+import UserDashboard from "./components/user/UserDashboard";
+import Profile from "./components/user/Profile";
+import ApplyVendor from "./components/user/ApplyVendor";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
+  const authToken = localStorage.getItem("authToken");
+
   const route = createBrowserRouter([
     {
       path: "/",
@@ -43,7 +51,7 @@ const App = () => {
       ],
     },
     {
-      path: "/dashboard",
+      path: "/user",
       element: (
         <ProtectedRoute>
           <VendorLayout />
@@ -51,20 +59,32 @@ const App = () => {
       ),
       children: [
         {
-          path: "",
-          element: <VendorDashboard />,
+          index: true,
+          element: <Navigate to={`/user/dashboard`} replace />,
         },
         {
-          path: "overview",
-          element: <Overview />,
+          path: `/user/dashboard`,
+          element: userData ? (
+            <UserDashboard userData={userData} />
+          ) : (
+            <Navigate to="/" />
+          ),
         },
         {
-          path: "profile",
-          element: <Profile />,
+          path: "/user/profile",
+          element: userData ? (
+            <Profile userData={userData} authToken={authToken} />
+          ) : (
+            <Navigate to="/" />
+          ),
         },
         {
-          path: "apply-for-vendor",
-          element: <Settings />,
+          path: "/user/apply",
+          element: userData ? (
+            <ApplyVendor userData={userData} />
+          ) : (
+            <Navigate to="/" />
+          ),
         },
       ],
     },

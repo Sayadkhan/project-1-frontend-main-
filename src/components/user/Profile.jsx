@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import axiosInstance from "../../api/axios";
 
-const Profile = ({ user }) => {
+const Profile = ({ userData, authToken }) => {
   const [formData, setFormData] = useState({
     companyName: "",
     companyDomain: "",
@@ -14,23 +15,26 @@ const Profile = ({ user }) => {
     confirmPassword: "",
   });
 
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); // To handle loading state
+
   // Populate formData with user data on initial render
   useEffect(() => {
-    if (user) {
+    if (userData) {
       setFormData({
-        companyName: user.companyName || "",
-        companyDomain: user.companyDomain || "",
-        registrationName: user.registrationName || "",
-        registrationPhone: user.registrationPhone || "",
-        registrantEmail: user.registrantEmail || "",
-        secondaryEmail: user.secondaryEmail || "",
-        city: user.city || "",
-        country: user.country || "",
+        companyName: userData.companyName || "",
+        companyDomain: userData.companyDomain || "",
+        registrationName: userData.registrationName || "",
+        registrationPhone: userData.registrationPhone || "",
+        registrantEmail: userData.registrantEmail || "",
+        secondaryEmail: userData.secondaryEmail || "",
+        city: userData.city || "",
+        country: userData.country || "",
         password: "",
         confirmPassword: "",
       });
     }
-  }, [user]);
+  }, [userData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,25 +44,48 @@ const Profile = ({ user }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission (e.g., API call to update user profile)
-    console.log("Updated Profile Data:", formData);
 
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+    // Check if passwords match
+    if (formData.password && formData.password !== formData.confirmPassword) {
+      setMessage("Passwords do not match!");
       return;
     }
 
-    // Call API to update profile
-    // Example:
-    // axiosInstance.post("/update-profile", formData)
-    //   .then(response => alert("Profile updated successfully"))
-    //   .catch(error => console.error("Error updating profile", error));
+    setLoading(true); // Start loading
+
+    try {
+      const response = await axiosInstance.put(
+        "/user/updateProfile",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const updatedUserData = response.data.user;
+      localStorage.setItem("userData", JSON.stringify(updatedUserData));
+
+      setMessage("Profile updated successfully!");
+      console.log("Updated Profile:", response.data);
+    } catch (error) {
+      console.error(
+        "Error updating profile:",
+        error.response?.data || error.message
+      );
+      setMessage(error.response?.data?.message || "An error occurred.");
+    } finally {
+      setLoading(false); // Stop loading
+    }
   };
 
   return (
     <div className="p-6">
+      <h1 className="text-2xl font-bold text-center mb-4">Update Profile</h1>
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-10">
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -175,39 +202,26 @@ const Profile = ({ user }) => {
             <option value="Brazil">Brazil</option>
           </select>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
-          />
-        </div>
+
         <button
           type="submit"
-          className="w-full px-4 py-2 font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200"
+          disabled={loading}
+          className={`col-span-2 w-full px-4 py-2 font-bold text-white ${
+            loading ? "bg-gray-500" : "bg-indigo-600 hover:bg-indigo-700"
+          } rounded-md focus:outline-none focus:ring focus:ring-indigo-200`}
         >
-          Update Profile
+          {loading ? "Updating..." : "Update Profile"}
         </button>
       </form>
+      {message && (
+        <p
+          className={`mt-4 text-center ${
+            message.includes("successfully") ? "text-green-500" : "text-red-500"
+          }`}
+        >
+          {message}
+        </p>
+      )}
     </div>
   );
 };

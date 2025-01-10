@@ -5,7 +5,7 @@ const RestrictedRoute = ({ children }) => {
 
   if (token) {
     // Redirect to the dashboard if token exists
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/user" />;
   }
 
   // Render the requested page (e.g., LoginPage) if no token
