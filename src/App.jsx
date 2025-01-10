@@ -17,6 +17,10 @@ import UserDashboard from "./components/user/UserDashboard";
 import Profile from "./components/user/Profile";
 import ApplyVendor from "./components/user/ApplyVendor";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/AdminDashboard";
+import UserManagement from "./pages/UserManagement";
+import VendorManagement from "./pages/VendorManagement";
 
 const App = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -86,6 +90,17 @@ const App = () => {
             <Navigate to="/" />
           ),
         },
+      ],
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+
+      children: [
+        { index: true, element: <Navigate to={`/admin/dashboard`} /> },
+        { path: "/admin/dashboard", element: <AdminDashboard /> },
+        { path: "/admin/user", element: <UserManagement /> },
+        { path: "/admin/vendor", element: <VendorManagement /> },
       ],
     },
     {
