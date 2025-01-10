@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
 
 const AllVendor = () => {
@@ -11,7 +11,7 @@ const AllVendor = () => {
     try {
       setIsLoading(true);
       const response = await axiosInstance.get("/admin/vendors");
-      setVendors(response.data.vendors);
+      setVendors(response.data.vendors || []);
       setError(null);
     } catch (error) {
       setError("Failed to fetch vendors. Please try again.");
@@ -34,14 +34,25 @@ const AllVendor = () => {
       {isLoading ? (
         <div className="text-center text-gray-500">Loading vendors...</div>
       ) : error ? (
-        <div className="text-center text-red-500">{error}</div>
+        <div className="text-center text-red-500">
+          {error}
+          <button
+            onClick={fetchAllVendors}
+            className="ml-4 text-blue-600 underline"
+          >
+            Retry
+          </button>
+        </div>
       ) : (
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Vendor Name
+                  Company Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Company domain
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Email
@@ -54,15 +65,18 @@ const AllVendor = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {vendors.length > 0 ? (
                 vendors.map((vendor) => (
-                  <tr key={vendor.id}>
+                  <tr key={vendor._id}>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {vendor.name}
+                      {vendor.companyName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {vendor.email}
+                      {vendor.companyDomain}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {vendor.status}
+                      {vendor.registrantEmail}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {vendor.isVendor ? "Approved" : "Pending"}
                     </td>
                   </tr>
                 ))

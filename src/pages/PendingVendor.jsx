@@ -42,6 +42,26 @@ const PendingVendor = () => {
     }
   };
 
+  // Handle approve or reject
+  const handleVendorAction = async (vendorId, action) => {
+    try {
+      const response = await axiosInstance.put(
+        `/admin/vendor/applications/${vendorId}`,
+        {
+          status: action,
+          adminComment:
+            action === "approved" ? "Vendor approved" : "Vendor rejected",
+        }
+      );
+      alert(`Vendor has been ${action} successfully.`);
+      setIsModalOpen(false);
+      fetchPendingVendors(); // Refresh the vendor list
+    } catch (error) {
+      console.error(`Error ${action} vendor:`, error.message);
+      alert(`Failed to ${action} vendor. Please try again.`);
+    }
+  };
+
   useEffect(() => {
     fetchPendingVendors();
   }, []);
@@ -149,7 +169,23 @@ const PendingVendor = () => {
                 )
               )}
             </ul>
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex justify-end space-x-4">
+              <button
+                onClick={() =>
+                  handleVendorAction(selectedVendor._id, "approved")
+                }
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+              >
+                Approve
+              </button>
+              <button
+                onClick={() =>
+                  handleVendorAction(selectedVendor._id, "declined")
+                }
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              >
+                Reject
+              </button>
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"

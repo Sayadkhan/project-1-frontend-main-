@@ -1,9 +1,10 @@
-import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { usermenu } from "../lib/UserMenu";
 
 const VendorDashboard = () => {
   const userdata = JSON.parse(localStorage.getItem("userData")) || null;
+
+  const navigate = useNavigate();
 
   const userNavActive = ({ isActive }) => {
     return {
@@ -12,6 +13,15 @@ const VendorDashboard = () => {
       shadow: isActive ? "" : null,
       Font: isActive ? "font-bold" : null,
     };
+  };
+
+  // Logout Function
+  const handleLogout = () => {
+    sessionStorage.clear(); // Clear session data if used
+    localStorage.clear(); // Clear all data in localStorage
+
+    // Redirect to the login page
+    navigate("/login");
   };
 
   return (
@@ -37,7 +47,7 @@ const VendorDashboard = () => {
           </NavLink>
         ))}
         <span
-          // onClick={handleLogout}
+          onClick={handleLogout}
           className=" text-center mt-2 px-2 py-2 bg-slate-900 text-white rounded-md cursor-pointer hover:bg-slate-700 duration-300  "
         >
           Log Out

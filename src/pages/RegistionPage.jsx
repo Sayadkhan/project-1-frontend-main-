@@ -30,7 +30,7 @@ const RegistrationPage = () => {
     registrationPhone: "",
     registrantEmail: "",
     secondaryEmail: "",
-    city: "dhaka",
+    city: "",
     country: "",
     password: "",
     confirmPassword: "",

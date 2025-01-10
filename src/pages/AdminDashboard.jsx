@@ -15,7 +15,7 @@ const AdminDashboard = () => {
   const fetchTotalUsers = async () => {
     try {
       const response = await axiosInstance.get("/admin/users");
-      const totalUsers = response.data.users.length;
+      const totalUsers = response.data.users.length - 1;
 
       setStats((currentStats) =>
         currentStats.map((stat) =>

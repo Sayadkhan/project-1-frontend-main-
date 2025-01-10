@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   RiDashboardLine,
   RiUser3Line,
@@ -11,6 +11,7 @@ import { useState } from "react";
 
 export default function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate(); // React Router's navigation hook
   const [isVendorDropdownOpen, setIsVendorDropdownOpen] = useState(false);
 
   const links = [
@@ -27,6 +28,15 @@ export default function Sidebar() {
     },
     { to: "/admin/profile", icon: RiUserSettingsLine, text: "Profile" },
   ];
+
+  // Logout Function
+  const handleLogout = () => {
+    sessionStorage.clear(); // Clear session data if used
+    localStorage.clear(); // Clear all data in localStorage
+
+    // Redirect to the login page
+    navigate("/login");
+  };
 
   return (
     <div className="bg-gray-800 text-white w-64 min-h-screen p-4">
@@ -85,6 +95,14 @@ export default function Sidebar() {
             )}
           </div>
         ))}
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="mt-4 w-full text-left p-3 rounded-lg bg-red-500 hover:bg-red-600 text-white"
+        >
+          Logout
+        </button>
       </nav>
     </div>
   );

@@ -3,10 +3,9 @@ import axiosInstance from "../api/axios";
 
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Track loading state
-  const [error, setError] = useState(null); // Track errors
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Fetch users from API
   const fetchUsers = async () => {
     try {
       setIsLoading(true);
@@ -25,25 +24,24 @@ export default function UserManagement() {
   };
 
   // Remove user
-  const handleRemove = async (id) => {
+  const handleRemove = async (userId) => {
     try {
-      await axiosInstance.delete(`/admin/users/${id}`);
-      setUsers(users.filter((user) => user.id !== id));
+      console.log("Removing user with ID:", userId);
+      await axiosInstance.delete(`/admin/users/${userId}`);
+      setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
-      setError("Failed to remove user. Please try again.");
       console.error(
         "Error removing user:",
         error.response?.data || error.message
       );
+      setError("Failed to remove user. Please try again.");
     }
   };
 
-  // Memoized filtered users
   const filteredUsers = useMemo(() => {
     return users.filter((user) => user.role === "user");
   }, [users]);
 
-  // Fetch users on component mount
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -51,6 +49,7 @@ export default function UserManagement() {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">User Management</h2>
+
       {isLoading ? (
         <div className="text-center text-gray-500">Loading users...</div>
       ) : error ? (
@@ -72,6 +71,9 @@ export default function UserManagement() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Company Domain
                 </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Vendor Status
+                </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
                   Actions
                 </th>
@@ -80,7 +82,7 @@ export default function UserManagement() {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredUsers.length > 0 ? (
                 filteredUsers.map((user, index) => (
-                  <tr key={user.id}>
+                  <tr key={user._id}>
                     <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {user.companyName}
@@ -91,9 +93,12 @@ export default function UserManagement() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {user.companyDomain}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {user.vendorApplication?.status || "N/A"}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <button
-                        onClick={() => handleRemove(user.id)}
+                        onClick={() => handleRemove(user._id)}
                         className="text-red-600 hover:text-red-900 font-medium"
                       >
                         Remove
@@ -104,7 +109,7 @@ export default function UserManagement() {
               ) : (
                 <tr>
                   <td
-                    colSpan="5"
+                    colSpan="6"
                     className="px-6 py-4 text-center text-gray-500"
                   >
                     No users found.
