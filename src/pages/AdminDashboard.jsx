@@ -31,6 +31,7 @@ const AdminDashboard = () => {
       );
     }
   };
+
   const fetchAllVendor = async () => {
     try {
       const response = await axiosInstance.get("/admin/vendors");
@@ -50,6 +51,7 @@ const AdminDashboard = () => {
       );
     }
   };
+
   const getAlltheVendorApplications = async () => {
     try {
       const response = await axiosInstance.get("/admin/vendor/applications");
@@ -83,9 +85,11 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="p-4 md:p-6 max-w-6xl mx-auto">
+      <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center md:text-left">
+        Dashboard
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         {stats.map((stat) => (
           <StatCard key={stat.title} {...stat} />
         ))}

@@ -48,8 +48,8 @@ const LoginPage = () => {
       className="flex items-center justify-center min-h-screen bg-cover bg-center"
       style={{ backgroundImage: `url('/2.png')` }}
     >
-      <div className="bg-black container mx-auto flex items-center justify-center">
-        <div className="bg-white bg-opacity-90 rounded-lg shadow-lg w-[30rem] p-10">
+      <div className="container mx-auto flex items-center justify-center">
+        <div className="bg-[#dddfdc] bg-opacity-90 rounded-lg shadow-lg w-[30rem] p-10 mt-40">
           <h2 className="text-3xl font-bold text-center text-gray-800">
             Login To Your Account five
           </h2>
@@ -82,7 +82,7 @@ const LoginPage = () => {
             </div>
             <button
               type="submit"
-              className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              className="w-full py-2 bg-[#c4dbae] text-black rounded-md"
             >
               Login
             </button>
