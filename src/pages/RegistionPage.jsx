@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axiosInstance from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 // {
 //   "companyName": "TechCorp",
@@ -39,6 +40,8 @@ const RegistrationPage = () => {
   const [message, setMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  const navgiate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -46,6 +49,7 @@ const RegistrationPage = () => {
       [name]: type === "checkbox" ? checked : value,
     });
   };
+  const bgImage = "../../../2.png";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +64,7 @@ const RegistrationPage = () => {
       setSuccessMessage(
         response.data.message || "User registered successfully!"
       );
+      navgiate("/login");
       setTimeout(() => setSuccessMessage(""), 3000); //
     } catch (error) {
       setMessage(error.response?.data?.message || "Registration failed.");
@@ -68,7 +73,10 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 ">
+    <div
+      style={{ backgroundImage: `url(${bgImage})` }}
+      className="flex items-center justify-center min-h-screen "
+    >
       <div className="container mx-auto ">
         <div className=" bg-white bg-opacity-90 rounded-lg shadow-lg min-w-full p-10">
           <h2 className="text-3xl font-bold text-center text-gray-800">

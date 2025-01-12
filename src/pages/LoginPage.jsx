@@ -8,6 +8,7 @@ const LoginPage = () => {
     password: "",
   });
 
+  const bgImage = "../../../2.png";
   const navigate = useNavigate();
 
   const [message, setMessage] = useState("");
@@ -46,7 +47,7 @@ const LoginPage = () => {
   return (
     <div
       className="flex items-center justify-center min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: `url('/2.png')` }}
+      style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="container mx-auto flex items-center justify-center">
         <div className="bg-[#dddfdc] bg-opacity-90 rounded-lg shadow-lg w-[30rem] p-10 mt-40">
