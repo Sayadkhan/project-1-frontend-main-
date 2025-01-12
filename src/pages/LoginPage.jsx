@@ -9,6 +9,8 @@ const LoginPage = () => {
     password: "",
   });
 
+  const [companyDomain, setCompanyDomain] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,7 +31,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.email || !formData.password) {
+    if (!formData.email || !formData.password || !companyDomain) {
       alert("Please fill in all fields");
       return;
     }
@@ -61,7 +63,20 @@ const LoginPage = () => {
           <h2 className="text-3xl font-bold text-center text-gray-800">
             Login To Your Account
           </h2>
-          <form onSubmit={handleSubmit} className="grid gap-10">
+          <form onSubmit={handleSubmit} className="grid gap-6 mt-10">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Company Domain
+              </label>
+              <input
+                type="text"
+                name="companyDomain"
+                value={companyDomain}
+                onChange={(e) => setCompanyDomain(e.target.value)}
+                required
+                className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Email
@@ -88,6 +103,7 @@ const LoginPage = () => {
                 className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
               />
             </div>
+
             <button
               type="submit"
               className="w-full py-2 bg-[#c4dbae] text-black rounded-md"
