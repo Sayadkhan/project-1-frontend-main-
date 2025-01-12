@@ -23,6 +23,7 @@ import UserManagement from "./pages/UserManagement";
 import VendorManagement from "./pages/VendorManagement";
 import PendingVendor from "./pages/PendingVendor";
 import AllVendor from "./pages/AllVendor";
+import AddLogo from "./components/admin/AddLogo";
 
 const App = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -105,6 +106,7 @@ const App = () => {
         { path: "/admin/vendor", element: <VendorManagement /> },
         { path: "/admin/vendor/pending", element: <PendingVendor /> },
         { path: "/admin/vendor/approved", element: <AllVendor /> },
+        { path: "/admin/add/logo", element: <AddLogo authToken={authToken} /> },
       ],
     },
     {

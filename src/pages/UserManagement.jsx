@@ -56,8 +56,9 @@ export default function UserManagement() {
       ) : error ? (
         <div className="text-center text-red-500">{error}</div>
       ) : (
-        <div className="bg-white rounded-lg shadow-md overflow-x-auto">
-          <table className="w-full min-w-[800px] divide-y divide-gray-200">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          {/* Table for large screens */}
+          <table className="hidden sm:table w-full min-w-[800px] divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
@@ -121,6 +122,47 @@ export default function UserManagement() {
               )}
             </tbody>
           </table>
+
+          {/* Cards for mobile screens */}
+          <div className="sm:hidden space-y-4">
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user, index) => (
+                <div
+                  key={user._id}
+                  className="p-4 bg-gray-50 rounded-lg shadow-md"
+                >
+                  <p className="text-sm font-medium text-gray-700">
+                    <span className="font-bold">Serial Number:</span>{" "}
+                    {index + 1}
+                  </p>
+                  <p className="text-sm font-medium text-gray-700">
+                    <span className="font-bold">Company Name:</span>{" "}
+                    {user.companyName}
+                  </p>
+                  <p className="text-sm font-medium text-gray-700">
+                    <span className="font-bold">Company Email:</span>{" "}
+                    {user.registrantEmail}
+                  </p>
+                  <p className="text-sm font-medium text-gray-700">
+                    <span className="font-bold">Company Domain:</span>{" "}
+                    {user.companyDomain}
+                  </p>
+                  <p className="text-sm font-medium text-gray-700">
+                    <span className="font-bold">Vendor Status:</span>{" "}
+                    {user.vendorApplication?.status || "N/A"}
+                  </p>
+                  <button
+                    onClick={() => handleRemove(user._id)}
+                    className="mt-2 text-red-600 hover:text-red-900 font-medium"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">No users found.</p>
+            )}
+          </div>
         </div>
       )}
     </div>

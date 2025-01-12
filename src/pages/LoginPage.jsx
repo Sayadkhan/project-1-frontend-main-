@@ -38,7 +38,7 @@ const LoginPage = () => {
       response.data.user.role === "admin" && navigate("/admin");
       response.data.user.role === "user" && navigate("/user");
     } catch (error) {
-      setMessage(error.response?.data?.message || "Registration failed.");
+      setMessage(error.response?.data?.message || "login failed");
       setTimeout(() => setMessage(""), 3000);
     }
   };
@@ -51,7 +51,7 @@ const LoginPage = () => {
       <div className="container mx-auto flex items-center justify-center">
         <div className="bg-[#dddfdc] bg-opacity-90 rounded-lg shadow-lg w-[30rem] p-10 mt-40">
           <h2 className="text-3xl font-bold text-center text-gray-800">
-            Login To Your Account five
+            Login To Your Account
           </h2>
           <form onSubmit={handleSubmit} className="grid gap-10">
             <div>

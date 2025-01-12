@@ -1,16 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axiosInstance from "../api/axios";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [logo, setLogo] = useState("");
+
+  console.log("logo", logo);
+
+  // Fetch the logo on component mount
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const response = await axiosInstance.get("/settings/logo");
+        setLogo(response.data.logo); // Set the logo URL
+      } catch (error) {
+        console.error("Error fetching logo:", error.message);
+      }
+    };
+
+    fetchLogo();
+  }, []);
 
   return (
     <nav className="bg-black top-0 left-0 w-full z-50">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
         <Link to={"/"} className="flex items-center space-x-4">
-          {/* <img src="/logo.png" alt="Logo" className="w-12 h-12 object-cover" /> */}
-          <span className="text-white font-bold text-lg">IH</span>
+          {logo ? (
+            <img src={logo} alt="Logo" className="w-12 h-12 object-cover" />
+          ) : (
+            <span className="text-white font-bold text-lg">IH</span>
+          )}
         </Link>
 
         {/* Hamburger Menu */}
@@ -42,30 +63,26 @@ const Navbar = () => {
             isOpen ? "block" : "hidden"
           } md:block`}
         >
+          <Link
+            to="/"
+            className="text-white text-sm hover:text-gray-300 transition uppercase"
+          >
+            Home
+          </Link>
           <a
             href="#about"
             className="text-white text-sm hover:text-gray-300 transition"
           >
             ABOUT
           </a>
-          <a
-            href="#regions"
-            className="text-white text-sm hover:text-gray-300 transition"
-          >
-            REGIONS
-          </a>
+
           <a
             href="#business"
             className="text-white text-sm hover:text-gray-300 transition"
           >
             OUR BUSINESS
           </a>
-          <a
-            href="#news"
-            className="text-white text-sm hover:text-gray-300 transition"
-          >
-            NEWS
-          </a>
+
           <a
             href="#invest"
             className="text-white text-sm hover:text-gray-300 transition"
@@ -84,9 +101,9 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-4">
           <Link
             to={"/login"}
-            className="bg-white text-black font-bold px-4 py-2 rounded"
+            className="bg-white text-black font-bold px-4 py-2 rounded uppercase "
           >
-            login page
+            login
           </Link>
         </div>
       </div>
