@@ -4,6 +4,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 import HomeLayout from "./layouts/HomeLayout";
 import HomePage from "./pages/HomePage";
 import RegistionPage from "./pages/RegistionPage";
@@ -12,7 +14,6 @@ import VendorLayout from "./layouts/VendorLayout";
 import NotFoundPage from "./pages/NotFoundPage";
 import RestrictedRoute from "./components/RestrictedRoute";
 
-import { AuthProvider } from "./context/AuthContext";
 import UserDashboard from "./components/user/UserDashboard";
 import Profile from "./components/user/Profile";
 import ApplyVendor from "./components/user/ApplyVendor";
@@ -27,9 +28,8 @@ import AddLogo from "./components/admin/AddLogo";
 import AdminProfile from "./pages/AdminProfile";
 
 const App = () => {
-  const userData = JSON.parse(localStorage.getItem("userData"));
-
-  const authToken = localStorage.getItem("authToken");
+  // Get user and token from Redux state
+  const { user } = useSelector((state) => state.auth);
 
   const route = createBrowserRouter([
     {
@@ -72,33 +72,29 @@ const App = () => {
         },
         {
           path: `/user/dashboard`,
-          element: userData ? (
-            <UserDashboard userData={userData} />
+          element: user ? (
+            <UserDashboard userData={user} />
           ) : (
             <Navigate to="/" />
           ),
         },
         {
           path: "/user/profile",
-          element: userData ? (
-            <Profile userData={userData} authToken={authToken} />
-          ) : (
-            <Navigate to="/" />
-          ),
+          element: user ? <Profile userData={user} /> : <Navigate to="/" />,
         },
         {
           path: "/user/apply",
-          element: userData ? (
-            <ApplyVendor userData={userData} />
-          ) : (
-            <Navigate to="/" />
-          ),
+          element: user ? <ApplyVendor userData={user} /> : <Navigate to="/" />,
         },
       ],
     },
     {
       path: "/admin",
-      element: <AdminLayout />,
+      element: (
+        <ProtectedRoute role="admin">
+          <AdminLayout />
+        </ProtectedRoute>
+      ),
 
       children: [
         { index: true, element: <Navigate to={`/admin/dashboard`} /> },
@@ -106,14 +102,18 @@ const App = () => {
         { path: "/admin/user", element: <UserManagement /> },
         {
           path: "/admin/profile",
-          element: <AdminProfile userData={userData} />,
+          element: user ? (
+            <AdminProfile userData={user} />
+          ) : (
+            <Navigate to="/" />
+          ),
         },
         { path: "/admin/vendor", element: <VendorManagement /> },
         { path: "/admin/vendor/pending", element: <PendingVendor /> },
         { path: "/admin/vendor/approved", element: <AllVendor /> },
         {
           path: "/admin/add/logo",
-          element: <AddLogo authToken={authToken} userData={userData} />,
+          element: user ? <AddLogo userData={user} /> : <Navigate to="/" />,
         },
       ],
     },
@@ -123,11 +123,7 @@ const App = () => {
     },
   ]);
 
-  return (
-    <AuthProvider>
-      <RouterProvider router={route} />
-    </AuthProvider>
-  );
+  return <RouterProvider router={route} />;
 };
 
 export default App;

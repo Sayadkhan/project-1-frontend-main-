@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axiosInstance from "../api/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../features/AuthSlice";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
@@ -8,40 +9,44 @@ const LoginPage = () => {
     password: "",
   });
 
-  const bgImage = "../../../2.png";
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [message, setMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const { loading, error } = useSelector((state) => state.auth);
 
+  const bgImage = "../../../2.png";
+
+  // Handle form input changes
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axiosInstance.post("/login", formData);
-
-      setSuccessMessage(
-        response.data.message || "User registered successfully!"
-      );
-      setTimeout(() => setSuccessMessage(""), 3000);
-
-      localStorage.setItem("authToken", response.data.token);
-      localStorage.setItem("userData", JSON.stringify(response.data.user));
-
-      response.data.user.role === "admin" && navigate("/admin");
-      response.data.user.role === "user" && navigate("/user");
-    } catch (error) {
-      setMessage(error.response?.data?.message || "login failed");
-      setTimeout(() => setMessage(""), 3000);
+    if (!formData.email || !formData.password) {
+      alert("Please fill in all fields");
+      return;
     }
+
+    dispatch(loginUser(formData)).then((result) => {
+      if (result.meta.requestStatus === "fulfilled") {
+        const user = result.payload;
+        // Redirect user based on their role
+        if (user?.role === "admin") {
+          navigate("/admin");
+        } else if (user?.role === "user") {
+          navigate("/user");
+        } else {
+          alert("Unknown user role");
+        }
+      }
+    });
   };
 
   return (
@@ -84,16 +89,12 @@ const LoginPage = () => {
             <button
               type="submit"
               className="w-full py-2 bg-[#c4dbae] text-black rounded-md"
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
-          {message && (
-            <p className="mt-4 text-red-500 text-center">{message}</p>
-          )}
-          {successMessage && (
-            <p className="mt-4 text-green-500 text-center">{successMessage}</p>
-          )}
+          {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
         </div>
       </div>
     </div>
