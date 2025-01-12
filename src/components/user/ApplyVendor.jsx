@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axiosInstance from "../../api/axios";
 
-const ApplyVendor = () => {
+const ApplyVendor = ({ userData }) => {
+  console.log(userData);
   const [documents, setDocuments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState(null);
