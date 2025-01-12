@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../api/axios";
 
 const ApplyVendor = () => {
-  // Fetch userData and authToken from Redux
   const { user, authToken } = useSelector((state) => state.auth);
+
+  console.log("Auth Token:", authToken); // Debug token
 
   const [documents, setDocuments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +19,11 @@ const ApplyVendor = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!authToken) {
+      setError("Authentication token is missing.");
+      return;
+    }
 
     if (documents.length === 0) {
       setError("Please upload at least one document.");
@@ -36,7 +42,7 @@ const ApplyVendor = () => {
 
       const response = await axiosInstance.post("/vendor/apply", formData, {
         headers: {
-          Authorization: `Bearer ${authToken}`, // Include token in headers
+          Authorization: `Bearer ${authToken}`, // Pass token
           "Content-Type": "multipart/form-data",
         },
       });
@@ -46,6 +52,10 @@ const ApplyVendor = () => {
       );
       setDocuments([]); // Reset form
     } catch (error) {
+      console.error(
+        "Error applying for vendor:",
+        error.response?.data || error.message
+      );
       setError(
         error.response?.data?.message || "Failed to apply for vendor status."
       );
@@ -58,14 +68,12 @@ const ApplyVendor = () => {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">Apply for Vendor</h2>
 
-      {/* Success Message */}
       {message && (
         <div className="mb-4 text-green-600 bg-green-100 p-2 rounded">
           {message}
         </div>
       )}
 
-      {/* Error Message */}
       {error && (
         <div className="mb-4 text-red-600 bg-red-100 p-2 rounded">{error}</div>
       )}

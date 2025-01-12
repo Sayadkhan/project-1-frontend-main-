@@ -29,7 +29,10 @@ import AdminProfile from "./pages/AdminProfile";
 
 const App = () => {
   // Get user and token from Redux state
-  const { user } = useSelector((state) => state.auth);
+  const { user, authToken } = useSelector((state) => state.auth);
+
+  console.log("User Data:", user);
+  console.log("Auth Token:", authToken);
 
   const route = createBrowserRouter([
     {
@@ -103,7 +106,7 @@ const App = () => {
         {
           path: "/admin/profile",
           element: user ? (
-            <AdminProfile userData={user} />
+            <AdminProfile userData={user} authToken={authToken} />
           ) : (
             <Navigate to="/" />
           ),
@@ -113,7 +116,11 @@ const App = () => {
         { path: "/admin/vendor/approved", element: <AllVendor /> },
         {
           path: "/admin/add/logo",
-          element: user ? <AddLogo userData={user} /> : <Navigate to="/" />,
+          element: user ? (
+            <AddLogo userData={user} authToken={authToken} />
+          ) : (
+            <Navigate to="/" />
+          ),
         },
       ],
     },

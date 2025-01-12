@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
+import { useSelector } from "react-redux";
 
-const AdminProfile = ({ userData, authToken }) => {
+const AdminProfile = () => {
   const [formData, setFormData] = useState({
     companyName: "",
     companyDomain: "",
@@ -15,26 +16,28 @@ const AdminProfile = ({ userData, authToken }) => {
     confirmPassword: "",
   });
 
+  const { user, authToken } = useSelector((state) => state.auth);
+
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false); // To handle loading state
 
   // Populate formData with user data on initial render
   useEffect(() => {
-    if (userData) {
+    if (user) {
       setFormData({
-        companyName: userData.companyName || "",
-        companyDomain: userData.companyDomain || "",
-        registrationName: userData.registrationName || "",
-        registrationPhone: userData.registrationPhone || "",
-        registrantEmail: userData.registrantEmail || "",
-        secondaryEmail: userData.secondaryEmail || "",
-        city: userData.city || "",
-        country: userData.country || "",
+        companyName: user.companyName || "",
+        companyDomain: user.companyDomain || "",
+        registrationName: user.registrationName || "",
+        registrationPhone: user.registrationPhone || "",
+        registrantEmail: user.registrantEmail || "",
+        secondaryEmail: user.secondaryEmail || "",
+        city: user.city || "",
+        country: user.country || "",
         password: "",
         confirmPassword: "",
       });
     }
-  }, [userData]);
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
