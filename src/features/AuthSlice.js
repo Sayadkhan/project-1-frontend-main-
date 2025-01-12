@@ -6,7 +6,7 @@ export const loginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/login", credentials);
-      return response.data.user;
+      return { user: response.data.user, token: response.data.token };
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Login failed");
     }
@@ -15,9 +15,14 @@ export const loginUser = createAsyncThunk(
 
 export const fetchUserProfile = createAsyncThunk(
   "auth/fetchUserProfile",
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get("/profile");
+      const { authToken } = getState().auth; // Get token from Redux state
+      const response = await axiosInstance.get("/profile", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       return response.data.user;
     } catch (error) {
       return rejectWithValue(
@@ -44,12 +49,14 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
+    authToken: null, // Added authToken to state
     loading: false,
     error: null,
   },
   reducers: {
     resetAuthState: (state) => {
       state.user = null;
+      state.authToken = null; // Clear token on reset
       state.loading = false;
       state.error = null;
     },
@@ -62,7 +69,8 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload.user;
+        state.authToken = action.payload.token; // Store token
         state.loading = false;
         state.error = null;
       })
@@ -91,6 +99,7 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
+        state.authToken = null; // Clear token on logout
         state.loading = false;
         state.error = null;
       })

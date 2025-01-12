@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import axiosInstance from "../api/axios";
 
 const AllVendor = () => {
@@ -6,11 +7,18 @@ const AllVendor = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch authToken from Redux
+  const { authToken } = useSelector((state) => state.auth);
+
   // Fetch all vendors
   const fetchAllVendors = async () => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.get("/admin/vendors");
+      const response = await axiosInstance.get("/admin/vendors", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       setVendors(response.data.vendors || []);
       setError(null);
     } catch (error) {
@@ -25,8 +33,10 @@ const AllVendor = () => {
   };
 
   useEffect(() => {
-    fetchAllVendors();
-  }, []);
+    if (authToken) {
+      fetchAllVendors();
+    }
+  }, [authToken]);
 
   return (
     <div className="p-6">
@@ -52,7 +62,7 @@ const AllVendor = () => {
                   Company Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Company domain
+                  Company Domain
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Email
@@ -83,7 +93,7 @@ const AllVendor = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan="3"
+                    colSpan="4"
                     className="px-6 py-4 text-center text-gray-500"
                   >
                     No vendors found.

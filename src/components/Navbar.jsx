@@ -14,8 +14,6 @@ const Navbar = () => {
   // Get user and authToken from Redux
   const data = useSelector((state) => state.auth);
 
-  console.log("User Data:", data);
-
   // Fetch the logo on component mount
   useEffect(() => {
     const fetchLogo = async () => {

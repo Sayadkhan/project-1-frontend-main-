@@ -1,15 +1,23 @@
 import { useEffect, useState, useMemo } from "react";
+import { useSelector } from "react-redux";
 import axiosInstance from "../api/axios";
 
-export default function UserManagement() {
+const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Get the auth token from Redux
+  const { authToken } = useSelector((state) => state.auth);
+
   const fetchUsers = async () => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.get("/admin/users");
+      const response = await axiosInstance.get("/admin/users", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       setUsers(response.data.users);
       setError(null);
     } catch (error) {
@@ -26,7 +34,11 @@ export default function UserManagement() {
   const handleRemove = async (userId) => {
     try {
       console.log("Removing user with ID:", userId);
-      await axiosInstance.delete(`/admin/users/${userId}`);
+      await axiosInstance.delete(`/admin/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       console.error(
@@ -42,8 +54,10 @@ export default function UserManagement() {
   }, [users]);
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    if (authToken) {
+      fetchUsers();
+    }
+  }, [authToken]);
 
   return (
     <div className="p-4 sm:p-6">
@@ -167,4 +181,6 @@ export default function UserManagement() {
       )}
     </div>
   );
-}
+};
+
+export default UserManagement;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { RiUser3Line, RiStore2Line, RiTimeLine } from "react-icons/ri";
 import StatCard from "../components/StatCard";
 import axiosInstance from "../api/axios";
@@ -10,9 +11,19 @@ const AdminDashboard = () => {
     { title: "Pending Requests", value: "0", icon: RiTimeLine },
   ]);
 
+  // Fetch authToken from Redux
+  const { authToken } = useSelector((state) => state.auth);
+
+  console.log("Auth Token:", authToken);
+
+  // Fetch total users
   const fetchTotalUsers = async () => {
     try {
-      const response = await axiosInstance.get("/admin/users");
+      const response = await axiosInstance.get("/admin/users", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       const totalUsers = response.data.users.length - 1;
 
       setStats((currentStats) =>
@@ -30,15 +41,20 @@ const AdminDashboard = () => {
     }
   };
 
-  const fetchAllVendor = async () => {
+  // Fetch total vendors
+  const fetchAllVendors = async () => {
     try {
-      const response = await axiosInstance.get("/admin/vendors");
-      const totalVendor = response.data.vendors.length;
+      const response = await axiosInstance.get("/admin/vendors", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      const totalVendors = response.data.vendors.length;
 
       setStats((currentStats) =>
         currentStats.map((stat) =>
           stat.title === "Total Vendors"
-            ? { ...stat, value: totalVendor?.toLocaleString() }
+            ? { ...stat, value: totalVendors?.toLocaleString() }
             : stat
         )
       );
@@ -50,15 +66,20 @@ const AdminDashboard = () => {
     }
   };
 
-  const getAlltheVendorApplications = async () => {
+  // Fetch pending vendor applications
+  const fetchPendingVendorApplications = async () => {
     try {
-      const response = await axiosInstance.get("/admin/vendor/applications");
-      const totalApplication = response.data.length;
+      const response = await axiosInstance.get("/admin/vendor/applications", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      const totalApplications = response.data.length;
 
       setStats((currentStats) =>
         currentStats.map((stat) =>
           stat.title === "Pending Requests"
-            ? { ...stat, value: totalApplication?.toLocaleString() }
+            ? { ...stat, value: totalApplications?.toLocaleString() }
             : stat
         )
       );
@@ -70,11 +91,14 @@ const AdminDashboard = () => {
     }
   };
 
+  // Fetch stats on component mount
   useEffect(() => {
-    fetchTotalUsers();
-    fetchAllVendor();
-    getAlltheVendorApplications();
-  }, []);
+    if (authToken) {
+      fetchTotalUsers();
+      fetchAllVendors();
+      fetchPendingVendorApplications();
+    }
+  }, [authToken]);
 
   return (
     <div className="p-4 md:p-6 max-w-6xl mx-auto">

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import axiosInstance from "../api/axios";
 import { IoEyeOutline } from "react-icons/io5";
 
@@ -9,6 +10,9 @@ const PendingVendor = () => {
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Fetch authToken from Redux
+  const { authToken } = useSelector((state) => state.auth);
+
   console.log(selectedVendor);
   console.log(vendors);
 
@@ -16,7 +20,11 @@ const PendingVendor = () => {
   const fetchPendingVendors = async () => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.get("/admin/vendor/applications");
+      const response = await axiosInstance.get("/admin/vendor/applications", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       setVendors(response.data);
       setError(null);
     } catch (error) {
@@ -34,7 +42,11 @@ const PendingVendor = () => {
   const fetchVendorDetails = async (vendorId) => {
     try {
       setIsModalOpen(true);
-      const response = await axiosInstance.get(`/admin/vendors/${vendorId}`);
+      const response = await axiosInstance.get(`/admin/vendors/${vendorId}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       setSelectedVendor(response.data.vendor);
     } catch (error) {
       console.error("Error fetching vendor details:", error.message);
@@ -45,12 +57,17 @@ const PendingVendor = () => {
   // Handle approve or reject
   const handleVendorAction = async (vendorId, action) => {
     try {
-      const response = await axiosInstance.put(
+      await axiosInstance.put(
         `/admin/vendor/applications/${vendorId}`,
         {
           status: action,
           adminComment:
             action === "approved" ? "Vendor approved" : "Vendor rejected",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         }
       );
       alert(`Vendor has been ${action} successfully.`);
@@ -63,8 +80,10 @@ const PendingVendor = () => {
   };
 
   useEffect(() => {
-    fetchPendingVendors();
-  }, []);
+    if (authToken) {
+      fetchPendingVendors();
+    }
+  }, [authToken]);
 
   return (
     <div className="p-6">
@@ -98,8 +117,6 @@ const PendingVendor = () => {
               {vendors.length > 0 ? (
                 vendors.map((vendor) => (
                   <tr key={vendor._id}>
-                    {" "}
-                    {/* Updated to use _id */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       {vendor.companyName}
                     </td>
@@ -107,12 +124,11 @@ const PendingVendor = () => {
                       {vendor.registrantEmail}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {" "}
                       {vendor.vendorApplication.status}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <button
-                        onClick={() => fetchVendorDetails(vendor._id)} // Updated to use _id
+                        onClick={() => fetchVendorDetails(vendor._id)}
                         className="text-blue-600 hover:text-blue-800"
                       >
                         <IoEyeOutline className="text-xl" />

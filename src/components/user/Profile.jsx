@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axiosInstance from "../../api/axios";
 
-const Profile = ({ userData, authToken }) => {
+const Profile = () => {
   const [formData, setFormData] = useState({
     companyName: "",
     companyDomain: "",
@@ -18,23 +19,29 @@ const Profile = ({ userData, authToken }) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false); // To handle loading state
 
+  // Get user data and token from Redux store
+  const { user, authToken } = useSelector((state) => state.auth);
+
+  console.log("User Data:", user);
+  console.log("token :", authToken);
+
   // Populate formData with user data on initial render
   useEffect(() => {
-    if (userData) {
+    if (user) {
       setFormData({
-        companyName: userData.companyName || "",
-        companyDomain: userData.companyDomain || "",
-        registrationName: userData.registrationName || "",
-        registrationPhone: userData.registrationPhone || "",
-        registrantEmail: userData.registrantEmail || "",
-        secondaryEmail: userData.secondaryEmail || "",
-        city: userData.city || "",
-        country: userData.country || "",
+        companyName: user.companyName || "",
+        companyDomain: user.companyDomain || "",
+        registrationName: user.registrationName || "",
+        registrationPhone: user.registrationPhone || "",
+        registrantEmail: user.registrantEmail || "",
+        secondaryEmail: user.secondaryEmail || "",
+        city: user.city || "",
+        country: user.country || "",
         password: "",
         confirmPassword: "",
       });
     }
-  }, [userData]);
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,9 +73,6 @@ const Profile = ({ userData, authToken }) => {
           },
         }
       );
-
-      const updatedUserData = response.data.user;
-      localStorage.setItem("userData", JSON.stringify(updatedUserData));
 
       setMessage("Profile updated successfully!");
       console.log("Updated Profile:", response.data);

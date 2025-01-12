@@ -8,10 +8,13 @@ import {
   RiArrowUpSLine,
 } from "react-icons/ri";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../features/AuthSlice";
 
 export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const links = [
@@ -35,10 +38,13 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     },
   ];
 
-  const handleLogout = () => {
-    sessionStorage.clear();
-    localStorage.clear();
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser()).unwrap();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const toggleDropdown = (link) => {

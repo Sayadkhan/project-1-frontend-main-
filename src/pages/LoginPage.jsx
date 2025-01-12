@@ -38,9 +38,11 @@ const LoginPage = () => {
       if (result.meta.requestStatus === "fulfilled") {
         const user = result.payload;
         // Redirect user based on their role
-        if (user?.role === "admin") {
+
+        console.log("User:", user);
+        if (user?.user?.role === "admin") {
           navigate("/admin");
-        } else if (user?.role === "user") {
+        } else if (user?.user?.role === "user") {
           navigate("/user");
         } else {
           alert("Unknown user role");

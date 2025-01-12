@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import axiosInstance from "../../api/axios";
 
-const ApplyVendor = ({ userData }) => {
-  console.log(userData);
+const ApplyVendor = () => {
+  // Fetch userData and authToken from Redux
+  const { user, authToken } = useSelector((state) => state.auth);
+
   const [documents, setDocuments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState(null);
@@ -33,11 +36,14 @@ const ApplyVendor = ({ userData }) => {
 
       const response = await axiosInstance.post("/vendor/apply", formData, {
         headers: {
+          Authorization: `Bearer ${authToken}`, // Include token in headers
           "Content-Type": "multipart/form-data",
         },
       });
 
-      setMessage(response.data.message);
+      setMessage(
+        response.data.message || "Application submitted successfully!"
+      );
       setDocuments([]); // Reset form
     } catch (error) {
       setError(
