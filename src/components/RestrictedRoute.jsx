@@ -2,13 +2,13 @@ import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const RestrictedRoute = ({ children }) => {
-  const data = useSelector((state) => state.auth);
+  const { authToken, user } = useSelector((state) => state.auth);
 
-  if (data.user?.role === "user") {
+  if (user?.role === "user") {
     // Redirect to the user dashboard if token exists and role is "user"
     return <Navigate to="/user" />;
   }
-  if (data.user?.role === "admin") {
+  if (user?.role === "admin") {
     // Redirect to the admin dashboard if token exists and role is "admin"
     return <Navigate to="/admin" />;
   }

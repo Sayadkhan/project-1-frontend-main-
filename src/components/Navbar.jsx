@@ -12,7 +12,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   // Get user and authToken from Redux
-  const data = useSelector((state) => state.auth);
+  const { user, authToken } = useSelector((state) => state.auth);
 
   // Fetch the logo on component mount
   useEffect(() => {
@@ -108,7 +108,7 @@ const Navbar = () => {
         </div>
 
         {/* User Authentication */}
-        {data.user ? (
+        {user ? (
           <div className="flex items-center space-x-4">
             <div className="relative">
               <button
@@ -120,7 +120,7 @@ const Navbar = () => {
               {isOpen && (
                 <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md">
                   <p className="block px-4 py-2 text-sm text-gray-800">
-                    Hello, {data.user.email || "User"}
+                    Hello, {user.registrantEmail || "User"}
                   </p>
                   <button
                     onClick={handleLogout}
