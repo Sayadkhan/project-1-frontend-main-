@@ -24,6 +24,7 @@ import VendorManagement from "./pages/VendorManagement";
 import PendingVendor from "./pages/PendingVendor";
 import AllVendor from "./pages/AllVendor";
 import AddLogo from "./components/admin/AddLogo";
+import AdminProfile from "./pages/AdminProfile";
 
 const App = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -103,10 +104,17 @@ const App = () => {
         { index: true, element: <Navigate to={`/admin/dashboard`} /> },
         { path: "/admin/dashboard", element: <AdminDashboard /> },
         { path: "/admin/user", element: <UserManagement /> },
+        {
+          path: "/admin/profile",
+          element: <AdminProfile userData={userData} />,
+        },
         { path: "/admin/vendor", element: <VendorManagement /> },
         { path: "/admin/vendor/pending", element: <PendingVendor /> },
         { path: "/admin/vendor/approved", element: <AllVendor /> },
-        { path: "/admin/add/logo", element: <AddLogo authToken={authToken} /> },
+        {
+          path: "/admin/add/logo",
+          element: <AddLogo authToken={authToken} userData={userData} />,
+        },
       ],
     },
     {

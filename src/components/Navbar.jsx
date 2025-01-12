@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axiosInstance from "../api/axios";
+import { BiUser } from "react-icons/bi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [logo, setLogo] = useState("");
 
-  console.log("logo", logo);
+  const authToken = localStorage.getItem("authToken");
 
   // Fetch the logo on component mount
   useEffect(() => {
@@ -23,14 +24,14 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-black top-0 left-0 w-full z-50">
+    <nav className="bg-white top-0 left-0 w-full z-50">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
         <Link to={"/"} className="flex items-center space-x-4">
           {logo ? (
             <img src={logo} alt="Logo" className="w-12 h-12 object-cover" />
           ) : (
-            <span className="text-white font-bold text-lg">IH</span>
+            <span className=" font-bold text-lg">IH</span>
           )}
         </Link>
 
@@ -65,47 +66,61 @@ const Navbar = () => {
         >
           <Link
             to="/"
-            className="text-white text-sm hover:text-gray-300 transition uppercase"
+            className="text-sm hover:text-gray-300 transition uppercase"
           >
             Home
           </Link>
-          <a
-            href="#about"
-            className="text-white text-sm hover:text-gray-300 transition"
-          >
+          <a href="#about" className="t text-sm hover:text-gray-300 transition">
             ABOUT
           </a>
 
           <a
             href="#business"
-            className="text-white text-sm hover:text-gray-300 transition"
+            className=" text-sm hover:text-gray-300 transition"
           >
             OUR BUSINESS
           </a>
 
-          <a
-            href="#invest"
-            className="text-white text-sm hover:text-gray-300 transition"
-          >
+          <a href="#invest" className=" text-sm hover:text-gray-300 transition">
             INVEST
           </a>
           <a
             href="#careers"
-            className="text-white text-sm hover:text-gray-300 transition"
+            className=" text-sm hover:text-gray-300 transition"
           >
             CAREERS
           </a>
         </div>
 
         {/* Language Selector and Button */}
-        <div className="hidden md:flex items-center space-x-4">
-          <Link
-            to={"/login"}
-            className="bg-white text-black font-bold px-4 py-2 rounded uppercase "
-          >
-            login
-          </Link>
-        </div>
+        {authToken ? (
+          <>
+            <Link
+              to={"/login"}
+              className="  font-bold px-4 py-2 rounded uppercase text-4xl "
+            >
+              <BiUser />
+            </Link>
+          </>
+        ) : (
+          <>
+            <div className="hidden md:flex items-center space-x-4">
+              <Link
+                to={"/login"}
+                className="bg-white text-black font-bold px-4 py-2 rounded uppercase "
+              >
+                login
+              </Link>
+              or
+              <Link
+                to={"/register"}
+                className="bg-white text-black font-bold px-4 py-2 rounded uppercase "
+              >
+                Register
+              </Link>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Mobile Menu */}
@@ -151,7 +166,7 @@ const Navbar = () => {
             to={"/login"}
             className="block px-4 py-2 bg-white text-black font-bold"
           >
-            login page
+            login
           </Link>
         </div>
       )}

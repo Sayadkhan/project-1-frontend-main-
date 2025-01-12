@@ -71,7 +71,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                     aria-label={`Toggle ${link.text}`}
                   >
                     <link.icon className="text-xl" />
-                    <span>{link.text}</span>
+                    <span className="text-nowrap">{link.text}</span>
                     {activeDropdown === link.to ? (
                       <RiArrowUpSLine className="ml-auto text-xl" />
                     ) : (
