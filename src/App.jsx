@@ -26,6 +26,9 @@ import PendingVendor from "./pages/PendingVendor";
 import AllVendor from "./pages/AllVendor";
 import AddLogo from "./components/admin/AddLogo";
 import AdminProfile from "./pages/AdminProfile";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Services from "./pages/Services";
 
 const App = () => {
   // Get user and token from Redux state
@@ -42,6 +45,18 @@ const App = () => {
         {
           path: "/",
           element: <HomePage />,
+        },
+        {
+          path: "/services",
+          element: <Services />,
+        },
+        {
+          path: "/about",
+          element: <About />,
+        },
+        {
+          path: "/contact",
+          element: <Contact />,
         },
         {
           path: "/register",
