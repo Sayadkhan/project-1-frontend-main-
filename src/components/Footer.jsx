@@ -1,73 +1,168 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+      zIndex: 9999,
+    });
+  };
   return (
-    <footer className="bg-gray-800 text-white py-8">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-wrap justify-between">
-          <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h2 className="text-xl font-bold mb-2">About Us</h2>
-            <p>
-              We are a team of passionate developers making the web a better
-              place.
+    //footer
+    <footer className="bg-gradient-to-b from-white to-purple-50 text-gray-600 shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12">
+          {/* Logo & Tagline */}
+          <div className="space-y-4 sm:space-y-6 transform hover:scale-105 transition-transform duration-300">
+            <div className="flex items-center group justify-center sm:justify-start">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-purple-600 rounded-full flex items-center justify-center shadow-lg group-hover:bg-purple-700 transition-colors duration-300">
+                <span className="text-white text-lg sm:text-xl font-bold">
+                  LOGO
+                </span>
+              </div>
+              <span className="ml-3 sm:ml-4 text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-500 bg-clip-text text-transparent">
+                company name
+              </span>
+            </div>
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed text-center sm:text-left">
+              Creating innovative solutions for tomorrow's challenges.
             </p>
           </div>
-          <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h2 className="text-xl font-bold mb-2">Quick Links</h2>
-            <ul>
-              <li className="mb-2">
-                <Link to="/" className="hover:underline">
-                  Home
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link to="/about" className="hover:underline">
-                  About
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link to="/services" className="hover:underline">
-                  Services
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link to="/contact" className="hover:underline">
-                  Contact
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link to="/blog" className="hover:underline">
-                  Blog
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link to="/careers" className="hover:underline">
-                  Careers
-                </Link>
-              </li>
+
+          {/* Quick Links */}
+          <div className="transform hover:-translate-y-1 transition-transform duration-300 text-center sm:text-left">
+            <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 bg-gradient-to-r from-purple-600 to-purple-500 bg-clip-text text-transparent">
+              Quick Links
+            </h3>
+            <ul className="space-y-3 sm:space-y-4">
+              {["Home", "About Us", "Services", "Contact Us"].map((link) => (
+                <li key={link}>
+                  <a
+                    href="#"
+                    className="group flex items-center text-gray-600 hover:text-purple-600 transition-colors duration-300 justify-center sm:justify-start"
+                  >
+                    <span className="transform group-hover:translate-x-2 transition-transform duration-300">
+                      {link}
+                    </span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
-          <div className="w-full md:w-1/3">
-            <h2 className="text-xl font-bold mb-2">Contact Us</h2>
-            <p>Email: info@example.com</p>
-            <p>Phone: +123 456 7890</p>
-            <div className="flex space-x-4 mt-4">
-              <a href="#" className="hover:text-gray-400">
+
+          {/* Contact Info */}
+          <div className="transform hover:-translate-y-1 transition-transform duration-300 text-center sm:text-left">
+            <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 bg-gradient-to-r from-purple-600 to-purple-500 bg-clip-text text-transparent">
+              Contact Us
+            </h3>
+            <div className="space-y-3 sm:space-y-4">
+              <p className="flex items-center space-x-3 justify-center sm:justify-start">
                 <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
+                  className="w-5 h-5 text-purple-600 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path d="M24 4.56v14.88c0 2.52-2.04 4.56-4.56 4.56H4.56C2.04 24 0 21.96 0 19.44V4.56C0 2.04 2.04 0 4.56 0h14.88C21.96 0 24 2.04 24 4.56zM9.6 19.2V9.6H6.72v9.6H9.6zm-1.44-10.8c.96 0 1.68-.72 1.68-1.68 0-.96-.72-1.68-1.68-1.68-.96 0-1.68.72-1.68 1.68 0 .96.72 1.68 1.68 1.68zm12 10.8v-5.28c0-2.88-1.56-4.32-3.6-4.32-1.68 0-2.4.96-2.88 1.68v-1.44H12v9.6h2.88v-5.28c0-1.44.24-2.88 2.04-2.88 1.8 0 1.8 1.68 1.8 3.12v5.04H20.16z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
                 </svg>
-              </a>
+                <span className="text-sm sm:text-base">
+                  123 Business Street
+                </span>
+              </p>
+              <p className="flex items-center space-x-3 justify-center sm:justify-start">
+                <svg
+                  className="w-5 h-5 text-purple-600 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
+                </svg>
+                <span className="text-sm sm:text-base">(555) 123-4567</span>
+              </p>
+              <p className="flex items-center space-x-3 justify-center sm:justify-start">
+                <svg
+                  className="w-5 h-5 text-purple-600 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <span className="text-sm sm:text-base break-all">
+                  info@yourcompany.com
+                </span>
+              </p>
+              <div className="flex space-x-5 mt-4 sm:mt-6 justify-center sm:justify-start">
+                {[FaFacebook, FaTwitter, FaInstagram, FaLinkedin].map(
+                  (Icon, index) => (
+                    <a
+                      key={index}
+                      href="#"
+                      className="text-gray-600 hover:text-purple-600 transform hover:scale-125 transition-all duration-300"
+                    >
+                      <Icon size={20} className="sm:w-6 sm:h-6" />
+                    </a>
+                  )
+                )}
+              </div>
             </div>
           </div>
         </div>
-        <div className="mt-8 text-center">
-          &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+
+        {/* Divider */}
+        <div className="border-t border-purple-100 my-8 sm:my-12" />
+
+        {/* Copyright */}
+        <div className="text-center">
+          <p className="text-gray-600 text-sm sm:text-base">
+            © 2025 Your Company Name. All Rights Reserved.
+          </p>
         </div>
+
+        {/* Back to Top Button */}
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-purple-600 hover:bg-purple-700 text-white p-3 sm:p-4 rounded-full shadow-lg transition-all duration-300 hover:shadow-purple-400/50 hover:scale-110 group"
+        >
+          <svg
+            className="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:-translate-y-1 transition-transform duration-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 10l7-7m0 0l7 7m-7-7v18"
+            />
+          </svg>
+        </button>
       </div>
     </footer>
   );
