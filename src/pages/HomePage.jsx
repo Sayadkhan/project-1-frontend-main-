@@ -250,8 +250,8 @@ function App() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-700 to-purple-900 min-h-screen">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80')] opacity-10 bg-cover bg-center" />
+      <section className="relative overflow-hidden  min-h-screen ">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80')]  bg-cover bg-center opacity-80" />
         <div className="relative container mx-auto px-4 py-32 lg:py-48">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -259,17 +259,17 @@ function App() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6">
+            <h1 className="text-5xl lg:text-7xl font-bold text-black mb-6">
               Shaping The Future Of Digital Business
             </h1>
-            <p className="text-xl text-purple-100 mb-8">
+            <p className="text-xl text-black mb-8">
               A proud Saudi project revolutionizing the way businesses operate
               in the digital age.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-purple-700 px-8 py-4 rounded-full font-semibold inline-flex items-center group"
+              className="bg-white text-black px-8 py-4 rounded-full font-semibold inline-flex items-center group"
             >
               Get Started
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
