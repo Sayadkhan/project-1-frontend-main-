@@ -1,7 +1,5 @@
-// LoginPage
-
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../features/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import Turnstile from "react-turnstile";
@@ -17,7 +15,6 @@ const LoginPage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { loading, error } = useSelector((state) => state.auth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +37,7 @@ const LoginPage = () => {
       return;
     }
 
-    dispatch(loginUser(formData)).then((result) => {
+    dispatch(loginUser({ ...formData, companyDomain })).then((result) => {
       if (result.meta.requestStatus === "fulfilled") {
         const user = result.payload;
         if (user?.user?.role === "admin") {
@@ -57,51 +54,23 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-white py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl transform transition-all duration-300 hover:shadow-2xl">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-purple-100 rounded-full mx-auto flex items-center justify-center transform transition-transform duration-500 hover:rotate-12">
-            <svg
-              className="w-8 h-8 text-purple-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
-              />
-            </svg>
-          </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Welcome Back
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Sign in to access your account
-          </p>
-        </div>
-
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div className="space-y-4">
             <div className="group">
-              <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
+              <label className="block text-sm font-medium text-gray-700">
                 Company Domain
               </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={companyDomain}
-                  onChange={(e) => setCompanyDomain(e.target.value)}
-                  required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none pl-10"
-                  placeholder="your-company.com"
-                />
-                <span className="absolute left-3 top-2.5 text-gray-400">@</span>
-              </div>
+              <input
+                type="text"
+                value={companyDomain}
+                onChange={(e) => setCompanyDomain(e.target.value)}
+                required
+                className="w-full px-4 py-2 rounded-lg border border-gray-300"
+                placeholder="your-company.com"
+              />
             </div>
-
             <div className="group">
-              <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
+              <label className="block text-sm font-medium text-gray-700">
                 Email Address
               </label>
               <input
@@ -110,74 +79,33 @@ const LoginPage = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300"
                 placeholder="Enter your email"
               />
             </div>
-
             <div className="group">
-              <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
+              <label className="block text-sm font-medium text-gray-700">
                 Password
               </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
-                  placeholder="Enter your password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-2.5 text-gray-400 hover:text-purple-600 transition-colors"
-                >
-                  {showPassword ? (
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-                      />
-                    </svg>
-                  )}
-                </button>
-              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 rounded-lg border border-gray-300"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="mt-2 text-sm text-purple-600 hover:text-purple-800"
+              >
+                {showPassword ? "Hide Password" : "Show Password"}
+              </button>
             </div>
           </div>
-
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              CAPTCHA
-            </label>
             <Turnstile
               sitekey="0x4AAAAAAA5KdgDzzgQl_aA5"
               onSuccess={(token) => setCaptchaToken(token)}
@@ -186,55 +114,14 @@ const LoginPage = () => {
               className="w-full"
             />
           </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-900"
-              >
-                Remember me
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-purple-600 hover:text-purple-500"
-              >
-                Forgot your password?
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              disabled={!captchaToken}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300"
-            >
-              Sign in
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={!captchaToken}
+            className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg"
+          >
+            Sign in
+          </button>
         </form>
-
-        <div className="text-center mt-4">
-          <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
-            <a
-              href="/register"
-              className="font-medium text-purple-600 hover:text-purple-500"
-            >
-              Sign up
-            </a>
-          </p>
-        </div>
       </div>
     </div>
   );

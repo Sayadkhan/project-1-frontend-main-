@@ -7,7 +7,6 @@ import {
 import { useSelector } from "react-redux";
 
 import HomeLayout from "./layouts/HomeLayout";
-import HomePage from "./pages/HomePage";
 import RegistionPage from "./pages/RegistionPage";
 import LoginPage from "./pages/LoginPage";
 import VendorLayout from "./layouts/VendorLayout";
@@ -26,16 +25,10 @@ import PendingVendor from "./pages/PendingVendor";
 import AllVendor from "./pages/AllVendor";
 import AddLogo from "./components/admin/AddLogo";
 import AdminProfile from "./pages/AdminProfile";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Services from "./pages/Services";
 
 const App = () => {
   // Get user and token from Redux state
   const { user, authToken } = useSelector((state) => state.auth);
-
-  console.log("User Data:", user);
-  console.log("Auth Token:", authToken);
 
   const route = createBrowserRouter([
     {
@@ -43,34 +36,23 @@ const App = () => {
       element: <HomeLayout />,
       children: [
         {
-          path: "/",
-          element: <HomePage />,
+          index: true,
+          element: <Navigate to={`/login`} replace />,
         },
         {
-          path: "/services",
-          element: <Services />,
-        },
-        {
-          path: "/about",
-          element: <About />,
-        },
-        {
-          path: "/contact",
-          element: <Contact />,
+          path: "/login",
+          index: true,
+          element: (
+            <RestrictedRoute>
+              <LoginPage />
+            </RestrictedRoute>
+          ),
         },
         {
           path: "/register",
           element: (
             <RestrictedRoute>
               <RegistionPage />
-            </RestrictedRoute>
-          ),
-        },
-        {
-          path: "/login",
-          element: (
-            <RestrictedRoute>
-              <LoginPage />
             </RestrictedRoute>
           ),
         },
