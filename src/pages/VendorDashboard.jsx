@@ -1,8 +1,12 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { usermenu } from "../lib/UserMenu";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../features/AuthSlice";
 
 const VendorDashboard = () => {
   const userdata = JSON.parse(localStorage.getItem("userData")) || null;
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -16,12 +20,21 @@ const VendorDashboard = () => {
   };
 
   // Logout Function
-  const handleLogout = () => {
-    sessionStorage.clear(); // Clear session data if used
-    localStorage.clear(); // Clear all data in localStorage
+  // const handleLogout = () => {
+  //   sessionStorage.clear();
+  //   localStorage.clear();
 
-    // Redirect to the login page
-    navigate("/login");
+  //   // Redirect to the login page
+  //   navigate("/login");
+  // };
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser()).unwrap();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
