@@ -172,7 +172,7 @@ function Contact() {
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-indigo-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
+                className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
               >
                 Send Message
               </motion.button>
@@ -189,7 +189,7 @@ function Contact() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <div className="bg-indigo-50 p-4 rounded-full mr-6">
-                  <FaMapMarkerAlt className="w-6 h-6 text-indigo-600" />
+                  <FaMapMarkerAlt className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg mb-1">Address</h3>
@@ -206,7 +206,7 @@ function Contact() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <div className="bg-indigo-50 p-4 rounded-full mr-6">
-                  <FaPhone className="w-6 h-6 text-indigo-600" />
+                  <FaPhone className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg mb-1">Phone</h3>
@@ -219,7 +219,7 @@ function Contact() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <div className="bg-indigo-50 p-4 rounded-full mr-6">
-                  <FaEnvelope className="w-6 h-6 text-indigo-600" />
+                  <FaEnvelope className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg mb-1">Email</h3>
@@ -236,7 +236,7 @@ function Contact() {
                       key={index}
                       href="#"
                       whileHover={{ scale: 1.2, rotate: 5 }}
-                      className="bg-indigo-50 p-4 rounded-full text-indigo-600 hover:bg-indigo-100 transition-colors duration-300"
+                      className="bg-indigo-50 p-4 rounded-full text-blue-600 hover:bg-indigo-100 transition-colors duration-300"
                     >
                       <Icon className="w-6 h-6" />
                     </motion.a>

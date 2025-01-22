@@ -132,6 +132,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -148,47 +149,47 @@ function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <motion.a
-            href="/"
+          <motion.div
+            to="/"
             className="text-2xl font-bold text-purple-600"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            LOGO
-          </motion.a>
+            <Link to="/">Logo</Link>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <motion.a
+              <motion.div
                 key={item.name}
-                href={item.href}
+                // href={item.href}
                 className="text-gray-600 hover:text-purple-600 font-medium transition-colors flex items-center gap-2"
                 whileHover={{ y: -2 }}
                 whileTap={{ y: 0 }}
               >
-                {item.icon}
-                {item.name}
-              </motion.a>
+                <Link to={item.href}>
+                  {item.icon}
+                  {item.name}
+                </Link>
+              </motion.div>
             ))}
             <div className="flex items-center space-x-4">
-              <motion.a
-                href="/login"
+              <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-6 py-2 bg-purple-500 text-white rounded-full font-medium transition-all duration-300"
               >
-                Login
-              </motion.a>
+                <Link to={"/login"}>Login</Link>
+              </motion.div>
 
-              <motion.a
-                href="/register"
+              <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-6 py-2 bg-purple-500 text-white rounded-full font-medium transition-all duration-300"
               >
-                Register
-              </motion.a>
+                <Link to={"/register"}>Register</Link>
+              </motion.div>
             </div>
           </div>
 
@@ -215,29 +216,27 @@ function Navbar() {
             className="md:hidden py-4"
           >
             {navItems.map((item) => (
-              <motion.a
+              <motion.div
                 key={item.name}
-                href={item.href}
                 className="block py-3 text-gray-600 hover:text-purple-600 font-medium transition-colors flex items-center gap-2 px-2"
                 whileHover={{ x: 4 }}
               >
-                {item.icon}
-                {item.name}
-              </motion.a>
+                <Link to={item.href}>
+                  {item.icon}
+                  {item.name}
+                </Link>
+              </motion.div>
             ))}
             <div className="mt-4 space-y-3">
-              <motion.a
-                href="/login"
-                className="block py-3 text-purple-600 text-center font-medium border border-purple-600 rounded-full hover:bg-purple-700 transition-colors"
-              >
-                Login
-              </motion.a>
-              <motion.a
+              <motion.div className="block py-3 text-purple-600 text-center font-medium border border-purple-600 rounded-full hover:bg-purple-700 transition-colors">
+                <Link to={"/login"}>Login</Link>
+              </motion.div>
+              <motion.div
                 href="/register"
                 className="block py-3 bg-purple-600 text-white text-center rounded-full font-medium hover:bg-purple-700 transition-colors"
               >
-                Register
-              </motion.a>
+                <Link to={"/register"}>Register</Link>
+              </motion.div>
             </div>
           </motion.div>
         )}
