@@ -32,11 +32,6 @@ const RegistrationPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    if (!captchaToken) {
-      alert("Please complete CAPTCHA");
-      return;
-    }
-
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       setMessage("Passwords do not match");
@@ -245,7 +240,7 @@ const RegistrationPage = () => {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <Turnstile
                   sitekey="0x4AAAAAAA5KdgDzzgQl_aA5"
                   onSuccess={(token) => setCaptchaToken(token)}
@@ -253,7 +248,7 @@ const RegistrationPage = () => {
                   onExpire={() => setCaptchaToken("")}
                   className="w-full"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         );
@@ -320,7 +315,6 @@ const RegistrationPage = () => {
             ) : (
               <button
                 type="submit"
-                disabled={!captchaToken}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300"
               >
                 Register

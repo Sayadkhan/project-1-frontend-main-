@@ -26,6 +26,7 @@ import PendingVendor from "./pages/PendingVendor";
 import AllVendor from "./pages/AllVendor";
 import AddLogo from "./components/admin/AddLogo";
 import AdminProfile from "./pages/AdminProfile";
+import TurnstileWrapper from "./lib/TurnstileWrapper";
 
 const App = () => {
   // Get user and token from Redux state
@@ -128,7 +129,11 @@ const App = () => {
     },
   ]);
 
-  return <RouterProvider router={route} />;
+  return (
+    <TurnstileWrapper>
+      <RouterProvider router={route} />
+    </TurnstileWrapper>
+  );
 };
 
 export default App;

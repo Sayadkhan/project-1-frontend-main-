@@ -27,12 +27,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !formData.email ||
-      !formData.password ||
-      !companyDomain ||
-      !captchaToken
-    ) {
+    if (!formData.email || !formData.password || !companyDomain) {
       alert("Please fill in all fields and complete CAPTCHA");
       return;
     }
@@ -134,7 +129,7 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div>
+          {/* <div>
             <Turnstile
               sitekey="0x4AAAAAAA5KdgDzzgQl_aA5"
               onSuccess={(token) => setCaptchaToken(token)}
@@ -142,11 +137,10 @@ const LoginPage = () => {
               onExpire={() => setCaptchaToken("")}
               className="w-full"
             />
-          </div>
+          </div> */}
 
           <button
             type="submit"
-            disabled={!captchaToken}
             className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
           >
             Sign in
