@@ -52,8 +52,34 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-white py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl transform transition-all duration-300 hover:shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg transform transition-all duration-500 hover:shadow-2xl">
+        <div className="text-center">
+          <div className="flex justify-center items-center mb-6">
+            <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
+              <svg
+                className="w-8 h-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                />
+              </svg>
+            </div>
+          </div>
+          <h2 className="text-3xl font-extrabold text-gray-900">
+            Welcome Back
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Sign in to access your account
+          </p>
+        </div>
+
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div className="space-y-4">
             <div className="group">
@@ -65,7 +91,7 @@ const LoginPage = () => {
                 value={companyDomain}
                 onChange={(e) => setCompanyDomain(e.target.value)}
                 required
-                className="w-full px-4 py-2 rounded-lg border border-gray-300"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 outline-none"
                 placeholder="your-company.com"
               />
             </div>
@@ -79,7 +105,7 @@ const LoginPage = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded-lg border border-gray-300"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 outline-none"
                 placeholder="Enter your email"
               />
             </div>
@@ -87,24 +113,27 @@ const LoginPage = () => {
               <label className="block text-sm font-medium text-gray-700">
                 Password
               </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-lg border border-gray-300"
-                placeholder="Enter your password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="mt-2 text-sm text-purple-600 hover:text-purple-800"
-              >
-                {showPassword ? "Hide Password" : "Show Password"}
-              </button>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 outline-none"
+                  placeholder="Enter your password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-2.5 text-gray-500 hover:text-purple-600"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
           </div>
+
           <div>
             <Turnstile
               sitekey="0x4AAAAAAA5KdgDzzgQl_aA5"
@@ -114,14 +143,27 @@ const LoginPage = () => {
               className="w-full"
             />
           </div>
+
           <button
             type="submit"
             disabled={!captchaToken}
-            className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg"
+            className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
           >
             Sign in
           </button>
         </form>
+
+        <div className="text-center mt-4">
+          <p className="text-sm text-gray-600">
+            Don't have an account?{" "}
+            <a
+              href="/register"
+              className="font-medium text-purple-600 hover:text-purple-500"
+            >
+              Sign up
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 
 import { useSelector } from "react-redux";
+import Turnstile from "react-turnstile";
 
 import HomeLayout from "./layouts/HomeLayout";
 import RegistionPage from "./pages/RegistionPage";

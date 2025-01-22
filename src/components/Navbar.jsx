@@ -15,7 +15,7 @@ function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto flex items-center justify-center px-4">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <motion.div

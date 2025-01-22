@@ -19,15 +19,6 @@ const VendorDashboard = () => {
     };
   };
 
-  // Logout Function
-  // const handleLogout = () => {
-  //   sessionStorage.clear();
-  //   localStorage.clear();
-
-  //   // Redirect to the login page
-  //   navigate("/login");
-  // };
-
   const handleLogout = async () => {
     try {
       await dispatch(logoutUser()).unwrap();
