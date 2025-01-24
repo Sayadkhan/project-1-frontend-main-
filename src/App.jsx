@@ -130,9 +130,9 @@ const App = () => {
   ]);
 
   return (
-    <TurnstileWrapper>
-      <RouterProvider router={route} />
-    </TurnstileWrapper>
+    // <TurnstileWrapper>
+    <RouterProvider router={route} />
+    // </TurnstileWrapper>
   );
 };
 

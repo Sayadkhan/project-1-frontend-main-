@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../features/AuthSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Turnstile from "react-turnstile";
 
 const LoginPage = () => {
@@ -12,6 +12,9 @@ const LoginPage = () => {
   const [companyDomain, setCompanyDomain] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [idNumber, setIdNumber] = useState("");
+  const [generatedID, setGeneratedID] = useState(""); // To store the generated ID
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,6 +47,28 @@ const LoginPage = () => {
         }
       }
     });
+  };
+
+  const handleSignupClick = () => {
+    const randomID = Math.random().toString(36).substring(2, 10); // Generate a random string
+    setGeneratedID(randomID);
+    setShowModal(true);
+
+    // Update the URL without reloading the page
+    const newUrl = `${window.location.pathname}?id=${randomID}`;
+    window.history.pushState({}, "", newUrl);
+  };
+
+  const handleModalSubmit = (e) => {
+    e.preventDefault();
+
+    if (idNumber !== generatedID) {
+      alert("The ID you entered does not match.");
+      return;
+    }
+
+    // Redirect to the register page
+    navigate("/register");
   };
 
   return (
@@ -129,19 +154,9 @@ const LoginPage = () => {
             </div>
           </div>
 
-          {/* <div>
-            <Turnstile
-              sitekey="0x4AAAAAAA5KdgDzzgQl_aA5"
-              onSuccess={(token) => setCaptchaToken(token)}
-              onError={() => setCaptchaToken("")}
-              onExpire={() => setCaptchaToken("")}
-              className="w-full"
-            />
-          </div> */}
-
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+            className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-purple-700 transition-all duration-300"
           >
             Sign in
           </button>
@@ -150,15 +165,50 @@ const LoginPage = () => {
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
-            <a
-              href="/register"
+            <button
+              onClick={handleSignupClick}
               className="font-medium text-purple-600 hover:text-purple-500"
             >
               Sign up
-            </a>
+            </button>
           </p>
         </div>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h3 className="text-lg font-bold mb-4">Sign Up</h3>
+            <form onSubmit={handleModalSubmit}>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Enter your ID number
+              </label>
+              <input
+                type="text"
+                value={idNumber}
+                onChange={(e) => setIdNumber(e.target.value)}
+                required
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 outline-none mb-4"
+              />
+              <div className="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="px-4 py-2 bg-gray-300 rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
