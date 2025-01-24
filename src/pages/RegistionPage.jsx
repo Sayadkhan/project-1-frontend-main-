@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axios";
-import Turnstile from "react-turnstile";
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
     companyName: "",
     companyDomain: "",
     registrationName: "",
+    registrantPosition: "",
     registrationPhone: "",
     registrantEmail: "",
     secondaryEmail: "",
     city: "",
+    state: "",
     country: "",
     password: "",
     confirmPassword: "",
   });
 
-  const [captchaToken, setCaptchaToken] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
   const [message, setMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -70,7 +70,7 @@ const RegistrationPage = () => {
             </h3>
             <div className="space-y-4">
               <div className="group">
-                <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Company Name
                 </label>
                 <input
@@ -79,12 +79,12 @@ const RegistrationPage = () => {
                   value={formData.companyName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Enter your company name"
                 />
               </div>
               <div className="group">
-                <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Company Domain
                 </label>
                 <input
@@ -93,7 +93,7 @@ const RegistrationPage = () => {
                   value={formData.companyDomain}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="e.g., company.com"
                 />
               </div>
@@ -108,8 +108,8 @@ const RegistrationPage = () => {
             </h3>
             <div className="space-y-4">
               <div className="group">
-                <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
-                  Full Name
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Registrant Name
                 </label>
                 <input
                   type="text"
@@ -117,13 +117,27 @@ const RegistrationPage = () => {
                   value={formData.registrationName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Enter your full name"
                 />
               </div>
               <div className="group">
-                <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
-                  Phone Number
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Registrant Position in Company
+                </label>
+                <input
+                  type="text"
+                  name="registrantPosition"
+                  value={formData.registrantPosition}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder="e.g., Manager, CEO"
+                />
+              </div>
+              <div className="group">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Registrant Phone Number
                 </label>
                 <input
                   type="tel"
@@ -131,13 +145,45 @@ const RegistrationPage = () => {
                   value={formData.registrationPhone}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Enter your phone number"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <div className="group">
-                  <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Country
+                  </label>
+                  <select
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  >
+                    <option value="">Select Country</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    {/* Add more options here */}
+                  </select>
+                </div>
+                <div className="group">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    State
+                  </label>
+                  <input
+                    type="text"
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="Enter your state"
+                  />
+                </div>
+                <div className="group">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     City
                   </label>
                   <input
@@ -146,31 +192,9 @@ const RegistrationPage = () => {
                     value={formData.city}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="Enter your city"
                   />
-                </div>
-                <div className="group">
-                  <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
-                    Country
-                  </label>
-                  <select
-                    name="country"
-                    value={formData.country}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
-                  >
-                    <option value="">Select Country</option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Germany">Germany</option>
-                    <option value="France">France</option>
-                    <option value="Japan">Japan</option>
-                    <option value="India">India</option>
-                  </select>
                 </div>
               </div>
             </div>
@@ -184,8 +208,8 @@ const RegistrationPage = () => {
             </h3>
             <div className="space-y-4">
               <div className="group">
-                <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
-                  Primary Email
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Registrant Company Email Address
                 </label>
                 <input
                   type="email"
@@ -193,26 +217,25 @@ const RegistrationPage = () => {
                   value={formData.registrantEmail}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
-                  placeholder="Enter your primary email"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder="Enter your company email"
                 />
               </div>
               <div className="group">
-                <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
-                  Secondary Email
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Registrant Secondary Email Address (Optional)
                 </label>
                 <input
                   type="email"
                   name="secondaryEmail"
                   value={formData.secondaryEmail}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Enter your secondary email"
                 />
               </div>
               <div className="group">
-                <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Password
                 </label>
                 <input
@@ -221,12 +244,12 @@ const RegistrationPage = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Enter your password"
                 />
               </div>
               <div className="group">
-                <label className="block text-sm font-medium text-gray-700 mb-1 group-hover:text-purple-600 transition-colors">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Confirm Password
                 </label>
                 <input
@@ -235,20 +258,10 @@ const RegistrationPage = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Confirm your password"
                 />
               </div>
-
-              {/* <div>
-                <Turnstile
-                  sitekey="0x4AAAAAAA5KdgDzzgQl_aA5"
-                  onSuccess={(token) => setCaptchaToken(token)}
-                  onError={() => setCaptchaToken("")}
-                  onExpire={() => setCaptchaToken("")}
-                  className="w-full"
-                />
-              </div> */}
             </div>
           </div>
         );
@@ -259,7 +272,7 @@ const RegistrationPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-white py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-      <div className="max-w-2xl w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl transform transition-all duration-300 hover:shadow-2xl">
+      <div className="max-w-2xl w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Create your account
@@ -268,7 +281,7 @@ const RegistrationPage = () => {
             {[1, 2, 3].map((step) => (
               <div
                 key={step}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-3 h-3 rounded-full ${
                   currentStep === step
                     ? "bg-purple-600 scale-125"
                     : currentStep > step
@@ -281,17 +294,11 @@ const RegistrationPage = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          <div className="rounded-md shadow-sm -space-y-px">{renderStep()}</div>
+          {renderStep()}
 
-          {message && (
-            <div className="text-red-500 text-center text-sm animate-fade-in">
-              {message}
-            </div>
-          )}
+          {message && <div className="text-red-500 text-center">{message}</div>}
           {successMessage && (
-            <div className="text-green-500 text-center text-sm animate-fade-in">
-              {successMessage}
-            </div>
+            <div className="text-green-500 text-center">{successMessage}</div>
           )}
 
           <div className="flex justify-between space-x-4">
@@ -299,7 +306,7 @@ const RegistrationPage = () => {
               <button
                 type="button"
                 onClick={prevStep}
-                className="group relative w-full flex justify-center py-2 px-4 border border-purple-300 text-sm font-medium rounded-md text-purple-700 bg-white hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300"
+                className="w-full py-2 px-4 text-purple-700 bg-white border border-purple-300 rounded-md"
               >
                 Previous
               </button>
@@ -308,14 +315,14 @@ const RegistrationPage = () => {
               <button
                 type="button"
                 onClick={nextStep}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300"
+                className="w-full py-2 px-4 text-white bg-purple-600 rounded-md"
               >
                 Next
               </button>
             ) : (
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300"
+                className="w-full py-2 px-4 text-white bg-purple-600 rounded-md"
               >
                 Register
               </button>

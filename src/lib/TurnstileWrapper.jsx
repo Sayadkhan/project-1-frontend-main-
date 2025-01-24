@@ -48,7 +48,7 @@ const TurnstileGate = ({ children }) => {
             connection before proceeding.
           </p>
           <Turnstile
-            sitekey="0x4AAAAAAA5KdgDzzgQl_aA5" // Replace with your Turnstile site key
+            sitekey="0x4AAAAAAA5KdgDzzgQl_aA5"
             onSuccess={handleCaptchaSuccess}
             onError={handleCaptchaError}
             onExpire={handleCaptchaExpire}
